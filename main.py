@@ -1,7 +1,7 @@
 import os
 from pytube import Playlist
 from telegram import Bot
-from telegram import InputFileCaption
+from telegram import InputFile
 
 # Telegram bot token - replace with your bot token
 TELEGRAM_BOT_TOKEN = '6609599978:AAHSJhmTlW3QZGcpD_a1EgwOjQe4Cnz3-58'
@@ -23,14 +23,13 @@ def download_and_send_playlist(chat_id, playlist_url):
         for video in playlist.videos:
             video.streams.filter(res="1080p").first().download(download_dir)
 
-        # Send each video file to the user with the video title as caption
+        # Send each video file to the user without captions
         for video in playlist.videos:
             video_title = video.title
             video_file_path = os.path.join(download_dir, f"{video_title}.mp4")
 
             with open(video_file_path, 'rb') as video_file:
-                caption = f"Title: {video_title}"
-                bot.send_document(chat_id, document=InputFileCaption(video_file, caption))
+                bot.send_document(chat_id, document=InputFile(video_file))
 
         # Optional: Clean up downloaded files after sending
         for file in os.listdir(download_dir):
@@ -49,7 +48,7 @@ if __name__ == "__main__":
     user_chat_id = '5747402681'
 
     # Example playlist URL sent by the user
-    user_playlist_url = "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID"
+    user_playlist_url = "https://www.youtube.com/playlist?list=PLu0W_9lII9agwh1XjRt242xIpHhPT2llg"
 
     # Download playlist videos in full HD quality and send to the user
     download_and_send_playlist(user_chat_id, user_playlist_url)
