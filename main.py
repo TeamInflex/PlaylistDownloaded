@@ -50,5 +50,12 @@ if __name__ == "__main__":
     # Example playlist URL sent by the user
     user_playlist_url = "https://www.youtube.com/playlist?list=PLu0W_9lII9agwh1XjRt242xIpHhPT2llg"
 
+    print("Bot is starting...")
+    
     # Download playlist videos in full HD quality and send to the user
-    download_and_send_playlist(user_chat_id, user_playlist_url)
+    result = download_and_send_playlist(user_chat_id, user_playlist_url)
+
+    if result:
+        print("Playlist download and sending completed successfully.")
+    else:
+        print("An error occurred during playlist download and sending.")
