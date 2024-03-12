@@ -30,8 +30,8 @@ def download_and_send_playlist(chat_id, playlist_url):
             video_title = video.title
             video_file_path = os.path.join(download_dir, f"{video_title}.mp4")
 
-            with open(video_file_path, 'rb') as video_file:
-                bot.send_document(chat_id, document=InputFile(video_file))
+            with open(video_file_path, 'rb') as vid_file:
+                bot.send_document(chat_id, document=InputFile(vid_file))
                 print(f"Video {index} sent.")
 
         print("Download and sending completed successfully.")
