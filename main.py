@@ -2,6 +2,7 @@ import os
 from pytube import Playlist
 from telegram import Bot
 from telegram import InputFile
+import sys
 
 # Telegram bot token - replace with your bot token
 TELEGRAM_BOT_TOKEN = '6609599978:AAHSJhmTlW3QZGcpD_a1EgwOjQe4Cnz3-58'
@@ -20,28 +21,34 @@ def download_and_send_playlist(chat_id, playlist_url):
         os.makedirs(download_dir, exist_ok=True)
 
         # Download each video in the playlist in full HD quality
-        for video in playlist.videos:
+        for index, video in enumerate(playlist.videos, start=1):
             video.streams.filter(res="1080p").first().download(download_dir)
+            print(f"Video {index} downloaded.")
 
         # Send each video file to the user without captions
-        for video in playlist.videos:
+        for index, video in enumerate(playlist.videos, start=1):
             video_title = video.title
             video_file_path = os.path.join(download_dir, f"{video_title}.mp4")
 
             with open(video_file_path, 'rb') as video_file:
                 bot.send_document(chat_id, document=InputFile(video_file))
+                print(f"Video {index} sent.")
 
-        # Optional: Clean up downloaded files after sending
+        print("Download and sending completed successfully.")
+        
+        # Clean up downloaded files after sending
         for file in os.listdir(download_dir):
             file_path = os.path.join(download_dir, file)
             os.remove(file_path)
 
         os.rmdir(download_dir)
 
-        return True
+        # Exit the script after completion
+        sys.exit()
 
     except Exception as e:
-        return str(e)
+        print(f"An error occurred: {str(e)}")
+        sys.exit()
 
 if __name__ == "__main__":
     # Replace with the chat_id of the user who sends the playlist link
@@ -53,9 +60,4 @@ if __name__ == "__main__":
     print("Bot is starting...")
     
     # Download playlist videos in full HD quality and send to the user
-    result = download_and_send_playlist(user_chat_id, user_playlist_url)
-
-    if result:
-        print("Playlist download and sending completed successfully.")
-    else:
-        print("An error occurred during playlist download and sending.")
+    download_and_send_playlist(user_chat_id, user_playlist_url)
