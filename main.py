@@ -37,8 +37,8 @@ def download_and_send_playlist(chat_id, playlist_url):
         print("Download and sending completed successfully.")
         
         # Clean up downloaded files after sending
-        for file in os.listdir(download_dir):
-            file_path = os.path.join(download_dir, file)
+        for file_name in os.listdir(download_dir):
+            file_path = os.path.join(download_dir, file_name)
             os.remove(file_path)
 
         os.rmdir(download_dir)
