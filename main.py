@@ -45,11 +45,8 @@ def download_and_send_playlist(chat_id, playlist_url):
         return str(e)
 
 if __name__ == "__main__":
-    # Replace with your Telegram bot token
-    TELEGRAM_BOT_TOKEN = 'your_telegram_bot_token'
-    
     # Replace with the chat_id of the user who sends the playlist link
-    user_chat_id = 'user_chat_id'
+    user_chat_id = '5747402681'
 
     # Example playlist URL sent by the user
     user_playlist_url = "https://www.youtube.com/playlist?list=YOUR_PLAYLIST_ID"
